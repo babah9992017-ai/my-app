@@ -1,0 +1,352 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b1020">
+
+    <title>LIFE OS | نظام إدارة حياتك</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">L</div>
+            <div>
+                <h2>LIFE OS</h2>
+                <span>نظامك الشخصي</span>
+            </div>
+        </div>
+
+        <nav class="navigation" aria-label="التنقل الرئيسي">
+            <button class="nav-item active" data-page="dashboard">◈ الرئيسية</button>
+            <button class="nav-item" data-page="tasks">▤ المهام</button>
+            <button class="nav-item" data-page="goals">◎ الأهداف</button>
+            <button class="nav-item" data-page="habits">↗ العادات</button>
+            <button class="nav-item" data-page="notes">▧ الملاحظات</button>
+            <button class="nav-item" data-page="settings">⚙ الإعدادات</button>
+        </nav>
+
+        <div class="sidebar-footer">
+            <span class="status-dot"></span>
+            مساحتك الشخصية
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <p class="eyebrow" id="currentDate"></p>
+                <h1 id="pageTitle">لوحة التحكم</h1>
+                <p class="subtitle" id="pageSubtitle">
+                    خطط ليومك، وابدأ إنجاز أهدافك.
+                </p>
+            </div>
+
+            <button class="primary-btn" id="quickAdd">
+                + إضافة مهمة
+            </button>
+        </header>
+
+        <section class="page active" id="dashboard">
+
+            <div class="welcome-card">
+                <div>
+                    <span class="welcome-label">مساحة الإنجاز</span>
+                    <h2 id="welcomeTitle">كل إنجاز يبدأ بخطوة.</h2>
+                    <p>ركّز على ما تستطيع إنجازه اليوم.</p>
+                </div>
+                <div class="welcome-symbol">✦</div>
+            </div>
+
+            <div class="stats-grid">
+
+                <article class="stat-card">
+                    <span class="stat-label">إجمالي المهام</span>
+                    <strong id="totalTasks">0</strong>
+                    <span class="stat-description">جميع مهامك</span>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">المهام المكتملة</span>
+                    <strong id="completedTasks">0</strong>
+                    <span class="stat-description">إنجازاتك</span>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">المهام المتبقية</span>
+                    <strong id="remainingTasks">0</strong>
+                    <span class="stat-description">بانتظار إنجازك</span>
+                </article>
+
+                <article class="stat-card">
+                    <span class="stat-label">نسبة الإنجاز</span>
+                    <strong id="completionRate">0%</strong>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="completionBar"></div>
+                    </div>
+                </article>
+
+            </div>
+
+            <div class="content-grid">
+
+                <section class="panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>مهامك القادمة</h2>
+                            <p>ابدأ بالأهم بالنسبة لك.</p>
+                        </div>
+                        <button class="text-btn" data-open="tasks">
+                            عرض الكل
+                        </button>
+                    </div>
+
+                    <div id="dashboardTasks" class="task-list"></div>
+                </section>
+
+                <section class="panel">
+                    <div class="section-heading">
+                        <div>
+                            <h2>أهدافك</h2>
+                            <p>تذكّر الصورة الكبيرة.</p>
+                        </div>
+                        <button class="text-btn" data-open="goals">
+                            عرض الكل
+                        </button>
+                    </div>
+
+                    <div id="dashboardGoals" class="goal-list"></div>
+                </section>
+
+            </div>
+
+        </section>
+
+        <section class="page" id="tasks">
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>إدارة المهام</h2>
+                        <p>أضف مهامك وعدّلها وتابع إنجازها.</p>
+                    </div>
+                </div>
+
+                <form id="taskForm" class="task-form">
+
+                    <input
+                        id="taskTitle"
+                        type="text"
+                        maxlength="160"
+                        placeholder="ما المهمة التي تريد إنجازها؟"
+                        required
+                    >
+
+                    <select id="taskCategory" aria-label="تصنيف المهمة">
+                        <option value="الدراسة">الدراسة</option>
+                        <option value="المشاريع">المشاريع</option>
+                        <option value="الشخصي">الشخصي</option>
+                        <option value="الصحة">الصحة</option>
+                        <option value="أخرى">أخرى</option>
+                    </select>
+
+                    <select id="taskPriority" aria-label="أولوية المهمة">
+                        <option value="عالية">أولوية عالية</option>
+                        <option value="متوسطة" selected>أولوية متوسطة</option>
+                        <option value="منخفضة">أولوية منخفضة</option>
+                    </select>
+
+                    <input id="taskDate" type="date" aria-label="موعد المهمة">
+
+                    <button class="primary-btn" type="submit">
+                        إضافة المهمة
+                    </button>
+
+                </form>
+
+                <div class="filter-row">
+                    <label for="taskFilter">عرض:</label>
+                    <select id="taskFilter">
+                        <option value="all">جميع المهام</option>
+                        <option value="active">غير المكتملة</option>
+                        <option value="completed">المكتملة</option>
+                    </select>
+                </div>
+
+                <div id="allTasks" class="task-list"></div>
+            </div>
+
+        </section>
+
+        <section class="page" id="goals">
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>الأهداف</h2>
+                        <p>حوّل طموحاتك إلى خطوات قابلة للمتابعة.</p>
+                    </div>
+                </div>
+
+                <form id="goalForm" class="inline-form">
+                    <input
+                        id="goalTitle"
+                        type="text"
+                        maxlength="120"
+                        placeholder="اكتب هدفًا جديدًا..."
+                        required
+                    >
+                    <button class="primary-btn" type="submit">
+                        إضافة هدف
+                    </button>
+                </form>
+
+                <div id="allGoals" class="goal-list"></div>
+            </div>
+
+        </section>
+
+        <section class="page" id="habits">
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>العادات اليومية</h2>
+                        <p>الاستمرارية أهم من الكمال.</p>
+                    </div>
+                </div>
+
+                <form id="habitForm" class="inline-form">
+                    <input
+                        id="habitTitle"
+                        type="text"
+                        maxlength="100"
+                        placeholder="مثلاً: قراءة 10 دقائق"
+                        required
+                    >
+                    <button class="primary-btn" type="submit">
+                        إضافة عادة
+                    </button>
+                </form>
+
+                <div id="allHabits" class="habit-list"></div>
+            </div>
+
+        </section>
+
+        <section class="page" id="notes">
+
+            <div class="panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>مساحة الأفكار</h2>
+                        <p>دوّن أفكارك وخططك في مكان واحد.</p>
+                    </div>
+                </div>
+
+                <form id="noteForm" class="note-form">
+                    <input
+                        id="noteTitle"
+                        type="text"
+                        maxlength="120"
+                        placeholder="عنوان الملاحظة"
+                        required
+                    >
+
+                    <textarea
+                        id="noteContent"
+                        maxlength="5000"
+                        placeholder="اكتب فكرتك هنا..."
+                        rows="5"
+                        required
+                    ></textarea>
+
+                    <button class="primary-btn" type="submit">
+                        حفظ الملاحظة
+                    </button>
+                </form>
+
+                <div id="allNotes" class="notes-grid"></div>
+            </div>
+
+        </section>
+
+        <section class="page" id="settings">
+
+            <div class="panel settings-panel">
+                <div class="section-heading">
+                    <div>
+                        <h2>تخصيص تجربتك</h2>
+                        <p>اجعل التطبيق مناسبًا لطريقتك في العمل.</p>
+                    </div>
+                </div>
+
+                <label for="userName">اسمك أو اللقب الذي تفضله</label>
+                <input
+                    id="userName"
+                    type="text"
+                    maxlength="40"
+                    placeholder="اكتب اسمك"
+                >
+
+                <label for="themeSelect">المظهر</label>
+                <select id="themeSelect">
+                    <option value="dark">داكن</option>
+                    <option value="light">فاتح</option>
+                </select>
+
+                <div class="settings-actions">
+                    <button class="primary-btn" id="saveSettings" type="button">
+                        حفظ الإعدادات
+                    </button>
+
+                    <button class="secondary-btn" id="exportData" type="button">
+                        تصدير نسخة احتياطية
+                    </button>
+
+                    <button class="secondary-btn" id="importButton" type="button">
+                        استيراد نسخة احتياطية
+                    </button>
+
+                    <input
+                        id="importFile"
+                        type="file"
+                        accept=".json,application/json"
+                        hidden
+                    >
+                </div>
+
+                <div class="danger-zone">
+                    <h3>إعادة ضبط البيانات</h3>
+                    <p>حذف المهام والأهداف والعادات والملاحظات والإعدادات المحفوظة.</p>
+                    <button class="danger-btn" id="resetData" type="button">
+                        حذف جميع البيانات
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="app-footer">
+            <span>LIFE OS</span>
+            <span>خطوة صغيرة كل يوم تصنع فرقًا.</span>
+        </footer>
+
+    </main>
+
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>
+```
